@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Text Editor</title>
+    <link rel="stylesheet" href="./css-reset.css" />
+    <link rel="stylesheet" href="./style.css" />
+    <!-- <link rel="icon" href="./favicon.ico" type="image/x-icon"> -->
+  </head>
+  <body>
+    <main class="main">
+      <div class="header">
+        <div class="header__tab">index.html</div>
+        <div class="header__tab selected">about.html</div>
+        <div class="header__tab">world.js</div>
+        <div class="header__tab header__tab__new">+</div>
+      </div>
+      <div class="subheader">app/home/about.html</div>
+      <div id="editor" class="editor">
+        <!-- line numbers -->
+        <div>
+          <div class="line-number">1</div>
+          <div class="line-number">2</div>
+          <div class="line-number">3</div>
+          <div class="line-number">4</div>
+          <div class="line-number">5</div>
+          <div class="line-number">6</div>
+          <div class="line-number">7</div>
+          <div class="line-number">8</div>
+          <div class="line-number">9</div>
+          <div class="line-number">10</div>
+        </div>
+        <!-- content -->
+        <div id="content" class="content">
+          <!-- <div class="line">
+            <span>
+              <span class="mk1"><</span><span class="mk2">h1</span
+              ><span class="mk1">></span><span class="mk3">Hello, world</span
+              ><span class="mk1"><</span><span class="mk2">h1</span
+              ><span class="mk1">></span>
+            </span>
+          </div> -->
+        </div>
+        <textarea
+          id="textarea"
+          class="textarea"
+          wrap="off"
+          autocorrect="off"
+          autocapitalize="off"
+          autocomplete="off"
+          spellcheck="false"
+          aria-required="false"
+          tabindex="0"
+          role="textbox"
+          aria-roledescription="editor"
+          aria-multiline="true"
+          aria-autocomplete="both"
+          aria-haspopup="false"
+        ></textarea>
+      </div>
+      <div class="footer">
+        <div class="footer__left">
+          <div class="footer__left__item">
+            Ln: <span id="line">1</span>, Col: <span id="column">1</span>
+          </div>
+        </div>
+        <div class="footer__right">
+          <div class="footer__right__item">
+            <span id="encoding">UTF-8</span>
+          </div>
+          <div class="footer__right__item">
+            <span id="mode">HTML</span>
+          </div>
+        </div>
+      </div>
+    </main>
+    <script src="classes/PieceTable.js"></script>
+    <script src="classes/Cursor.js"></script>
+    <script src="classes/Editor.js"></script>
+    <script src="index.js"></script>
+  </body>
+</html>
