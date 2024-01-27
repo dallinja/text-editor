@@ -13,7 +13,7 @@
   display: flex;
   /* padding: 0 12px; */
   min-height: 24px;
-  background: #ccc;
+  background: #ddd;
   color: #333;
   font-size: 12px;
   font-family: Lato, sans-serif;
@@ -28,9 +28,15 @@
   border-top: 1px solid transparent;
   border-left: 1px solid #aaa;
   font-weight: 400;
+  cursor: pointer;
+}
+.header__tab:hover,
+.header__tab.selected:hover {
+  background-color: #bbb;
+  color: #333;
 }
 .header__tab.selected {
-  background-color: #bbb;
+  background-color: #ccc;
   color: #333;
   border-bottom: 2px solid #2355de;
 }
@@ -61,7 +67,7 @@
 }
 
 .editor:focus-within {
-  border: 1px solid #333;
+  /* background-color: #eee; */
 }
 
 .line-number {
@@ -178,7 +184,7 @@
   justify-content: space-between;
   padding: 0 12px;
   height: 20px;
-  background: #ccc;
+  background: #ddd;
   color: #333;
   font-size: 12px;
   font-family: Lato, sans-serif;
@@ -189,4 +195,15 @@
   display: flex;
   align-items: center;
   gap: 20px;
+}
+
+.buffer {
+  width: 100%;
+}
+
+.buffer__original {
+  color: blue;
+}
+.buffer__add {
+  color: green;
 }

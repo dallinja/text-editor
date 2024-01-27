@@ -13,7 +13,7 @@
  * @constructor
  */
 class PieceTable {
-  constructor(originalText = "<h1>Hello, world<h1>") {
+  constructor(originalText = "") {
     this._original = originalText;
     this._add = "";
     /**
@@ -23,6 +23,14 @@ class PieceTable {
      */
     this._pieces = [new Piece(false, 0, originalText.length)];
     this._size = originalText.length;
+    this.undoStack = [];
+    this.redoStack = [];
+    this.tempInit();
+  }
+
+  tempInit() {
+    const originalBufferEl = document.getElementById("original-buffer");
+    originalBufferEl.textContent = this._original;
   }
 
   get size() {
@@ -45,6 +53,11 @@ class PieceTable {
     const addLength = this._add.length;
     this._add += value;
 
+    // temp start
+    const addBufferEl = document.getElementById("add-buffer");
+    addBufferEl.textContent = this._add;
+    // temp end
+
     const {
       piece,
       offset: pieceSeqOffset,
@@ -61,10 +74,18 @@ class PieceTable {
       pieceSeqOffset + piece.length === offset
     ) {
       piece.length += str.length;
+      const lastUndo = this.undoStack[this.undoStack.length - 1];
+      lastUndo.length += str.length;
       return piece;
     }
 
     const newPiece = new Piece(true, addLength, value.length);
+    this.undoStack.push({
+      type: "delete",
+      offset,
+      length: value.length,
+    });
+
     if (offset === 0) {
       this._pieces.unshift(newPiece);
       this._size += value.length;

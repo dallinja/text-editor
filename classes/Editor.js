@@ -68,14 +68,24 @@ class Editor {
         this.cursor.updateColRow(
           this.cursor.col + event.data.length,
           this.cursor.row
+          // this.cursor.offset + event.data.length
         );
       }
       // console.log("event.data: ", event.data);
       // console.log("event.key: ", event.key);
+    });
+    textarea.addEventListener("keydown", (event) => {
+      console.log("event.key: ", event.key);
       // event.preventDefault();
-      // if (event.key === "Enter") {
-      //   this.enter();
-      // } else if (!NON_INPUT_KEYS.includes(event.key)) {
+      if (event.key === "Enter") {
+        this.type(this.cursor.offset, "\n");
+        this.cursor.updateColRow(
+          0,
+          this.cursor.row + 1
+          // this.cursor.offset + 1
+        );
+      }
+      // else if (!NON_INPUT_KEYS.includes(event.key)) {
       //   this.type(event.data);
       // }
     });
@@ -86,9 +96,9 @@ class Editor {
     this.content.innerHTML = "";
     const sequence = this.pieceTable.getSequence();
     console.log("sequence: ", sequence);
+    this.lineCounts.length = 0;
     sequence.split("\n").forEach((line) => {
       this.lineCounts.push(line.length);
-      console.log("line: ", line);
       const textNode = document.createTextNode(line || "");
       const lineEl = document.createElement("div");
       lineEl.classList.add("line");
@@ -97,9 +107,20 @@ class Editor {
       lineEl.appendChild(spanEl);
       this.content.appendChild(lineEl);
     });
+    console.log("this.lineCounts: ", this.lineCounts);
+    const lineNumbersEl = document.getElementById("line-numbers");
+    lineNumbersEl.innerHTML = "";
+    this.lineCounts.forEach((_, index) => {
+      const lineNumberEl = document.createElement("div");
+      lineNumberEl.classList.add("line-number");
+      const textNode = document.createTextNode(index + 1);
+      lineNumberEl.appendChild(textNode);
+      lineNumbersEl.appendChild(lineNumberEl);
+    });
   }
 
   type(offset, value) {
+    console.log("value: ", value);
     this.pieceTable.insert(offset, value);
     // const value = event.target.value || "";
     // console.log("value: ", value);

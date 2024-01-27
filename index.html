@@ -20,17 +20,8 @@
       <div class="subheader">app/home/about.html</div>
       <div id="editor" class="editor">
         <!-- line numbers -->
-        <div>
+        <div id="line-numbers">
           <div class="line-number">1</div>
-          <div class="line-number">2</div>
-          <div class="line-number">3</div>
-          <div class="line-number">4</div>
-          <div class="line-number">5</div>
-          <div class="line-number">6</div>
-          <div class="line-number">7</div>
-          <div class="line-number">8</div>
-          <div class="line-number">9</div>
-          <div class="line-number">10</div>
         </div>
         <!-- content -->
         <div id="content" class="content">
@@ -59,6 +50,17 @@
           aria-autocomplete="both"
           aria-haspopup="false"
         ></textarea>
+      </div>
+      <div
+        style="
+          position: absolute;
+          top: 600px;
+          padding: 0 16px;
+          font-family: monospace;
+        "
+      >
+        <div id="original-buffer" class="buffer buffer__original"></div>
+        <div id="add-buffer" class="buffer buffer__add"></div>
       </div>
       <div class="footer">
         <div class="footer__left">

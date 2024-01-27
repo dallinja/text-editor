@@ -50,23 +50,27 @@ class Cursor {
     this.cursor.style.left = `${left + bounds.left}px`;
   }
 
-  updateColRow(col, row) {
+  updateColRow(col, row, offset) {
     this.col = col;
     this.row = row;
+    this.updateStylePosition(col * 8.5, row * LINE_HEIGHT);
     this.onColRowChange(this.col, this.row);
+    if (this.lineCounts.length <= row) {
+      return;
+    }
+    console.log("this.lineCounts cursor: ", this.lineCounts);
     let sequenceOffset = 0;
     for (let i = 0; i < this.lineCounts.length; i++) {
-      if (this.lineCounts.length <= row) {
-        break;
-      }
       if (i === row) {
-        sequenceOffset += col;
+        const isLastCol = col === this.lineCounts[i];
+        const isLastRow = i === this.lineCounts.length - 1;
+        sequenceOffset += col + (isLastCol && !isLastRow ? 1 : 0);
         break;
       } else {
         sequenceOffset += this.lineCounts[i];
       }
     }
     this.offset = sequenceOffset;
-    this.updateStylePosition(col * 8.5, row * LINE_HEIGHT);
+    console.log("this.offset: ", this.offset);
   }
 }
