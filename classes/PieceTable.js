@@ -105,20 +105,57 @@ class PieceTable {
     return newPiece;
   }
 
-  delete(index) {
-    const { piece, offset } = this._findPieceAndOffset(index);
-    piece.delete(offset);
-    this._size--;
+  delete(offset, length) {
+    console.log("here");
+    const lastOffset = offset + length;
+    console.log("lastOffset: ", lastOffset);
+    const {
+      piece: startPiece,
+      offset: startOffset,
+      pieceIndex: startPieceIndex,
+    } = this._findPieceAndOffset(offset);
+    console.log("startPiece: ", startPiece);
+    const {
+      piece: endPiece,
+      offset: endOffset,
+      pieceIndex: endPieceIndex,
+    } = this._findPieceAndOffset(lastOffset);
+    const endPeiceLength = endPiece.length;
+    console.log("endPiece: ", endPiece);
+    if (offset !== startOffset) {
+      // modify start piece
+      const newLength = offset - startPiece.offset;
+      startPiece.length = newLength;
+    }
+    const eatIn = lastOffset - endOffset;
+    console.log("eatIn: ", eatIn);
+    const remainingPiece = new Piece(
+      endPiece.addBuffer,
+      endPiece.offset + eatIn,
+      endPeiceLength - eatIn
+    );
+    console.log("startPiece: ", startPiece);
+    console.log("remainingPiece: ", remainingPiece);
+    this._pieces.splice(startPieceIndex + 1, 0, remainingPiece);
+    // piece.delete(offset);
+    this._size -= length;
   }
 
   /**
    * Returns the piece, offset, and piece index for the given offset
    * @param {number} seqOffset - an index into the sequence (not into the piece table)
-   * @returns {{piece: Piece, offset: number, pieceIndex: number}} - the piece, offset, and piece index for the given offset
+   * @returns {{piece: Piece, offset: number, pieceIndex: number}} - the piece, seg offset of start of piece, and piece index for the given offset
    */
   _findPieceAndOffset(seqOffset) {
     let currentSeqOffset = 0;
     let pieceIndex = 0;
+    if (seqOffset === this._size) {
+      return {
+        piece: this._pieces[this._pieces.length - 1],
+        offset: seqOffset - this._pieces[this._pieces.length - 1].length,
+        pieceIndex: this._pieces.length - 1,
+      };
+    }
     for (const piece of this._pieces) {
       if (seqOffset < currentSeqOffset + piece.length) {
         return { piece, offset: currentSeqOffset, pieceIndex };

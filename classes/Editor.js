@@ -71,19 +71,16 @@ class Editor {
           // this.cursor.offset + event.data.length
         );
       }
-      // console.log("event.data: ", event.data);
-      // console.log("event.key: ", event.key);
     });
     textarea.addEventListener("keydown", (event) => {
-      console.log("event.key: ", event.key);
       // event.preventDefault();
       if (event.key === "Enter") {
         this.type(this.cursor.offset, "\n");
-        this.cursor.updateColRow(
-          0,
-          this.cursor.row + 1
-          // this.cursor.offset + 1
-        );
+        this.cursor.updateColRow(0, this.cursor.row + 1);
+      } else if (event.key === "Backspace") {
+        this.pieceTable.delete(this.cursor.offset - 1, 1);
+        this.draw();
+        this.cursor.updateColRow(this.cursor.col - 1, this.cursor.row);
       }
       // else if (!NON_INPUT_KEYS.includes(event.key)) {
       //   this.type(event.data);
@@ -95,7 +92,6 @@ class Editor {
   draw() {
     this.content.innerHTML = "";
     const sequence = this.pieceTable.getSequence();
-    console.log("sequence: ", sequence);
     this.lineCounts.length = 0;
     sequence.split("\n").forEach((line) => {
       this.lineCounts.push(line.length);
@@ -107,7 +103,6 @@ class Editor {
       lineEl.appendChild(spanEl);
       this.content.appendChild(lineEl);
     });
-    console.log("this.lineCounts: ", this.lineCounts);
     const lineNumbersEl = document.getElementById("line-numbers");
     lineNumbersEl.innerHTML = "";
     this.lineCounts.forEach((_, index) => {
@@ -120,7 +115,6 @@ class Editor {
   }
 
   type(offset, value) {
-    console.log("value: ", value);
     this.pieceTable.insert(offset, value);
     // const value = event.target.value || "";
     // console.log("value: ", value);
